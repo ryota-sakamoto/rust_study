@@ -17,8 +17,9 @@ impl Object {
         println!("call run {}", self.name);
     }
 
-    fn change_name(&self, name: &str) {
-        // self.name = name.to_string();
+    fn chain(&self, n: u64) -> &Self {
+        println!("method chain {}", n);
+        self
     }
 }
 
@@ -33,6 +34,8 @@ impl Add for Object {
     }
 }
 
+mod module;
+
 fn main() {
     let obj = Object::new("name1", 5);
     obj.call();
@@ -40,7 +43,8 @@ fn main() {
 
     let obj2 = Object::new("name2", 10);
     let obj3 = obj.clone();
-    println!("{:?}", obj2 + obj3);
+    let obj4 = obj2 + obj3;
+    println!("{:?}", obj4);
     // println!("{:?} {:?}", obj2, obj3);
 
     let s1 = &obj.name;
@@ -51,9 +55,8 @@ fn main() {
     println!("{}", obj.name.as_str().chars().count());
 
     let array = ["1", "2", "3"];
-    println!("{} {:?}", array.join("_"), array);
-
-    obj.change_name("name2");
+    let array_string =  array.join("_");
+    println!("{} {:?}", array_string, array);
 
     let option_some: Option<u32> = Some(1);
     let option_none: Option<u32> = None;
@@ -77,5 +80,11 @@ fn main() {
     for n in &v {
         print!("{}", n);
     }
-    println!("{:?}", v);
+    println!("{:?}", v.iter().fold(0, |n, m| n + m));
+    let split_array: Vec<&str> = array_string.split("_").collect();
+    println!("{:?}", split_array);
+
+    obj4.chain(1).chain(2).chain(3);
+
+    module::call();
 }
