@@ -35,6 +35,8 @@ impl Add for Object {
 }
 
 mod module;
+mod list;
+use list::List;
 
 fn main() {
     let obj = Object::new("name1", 5);
@@ -87,4 +89,12 @@ fn main() {
     obj4.chain(1).chain(2).chain(3);
 
     module::call();
+
+    let list: List<u64> = List::empty_list()
+        .prepend(1)
+        .prepend(2)
+        .prepend(3)
+        .prepend(4);
+
+    println!("{:#?}", list);
 }
